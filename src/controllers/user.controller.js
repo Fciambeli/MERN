@@ -5,7 +5,11 @@ const create = async (req, res) => {
     const { name, username, email, password, avatar, background } = req.body;
 
     if (!name || !username || !email || !password || !avatar || !background) {
+<<<<<<< HEAD
         res.status(401).send({ message: "Submmit all field for registration" })
+=======
+        res.status(401).send({ message: "Submmit all fields for registration" })
+>>>>>>> 85f9ff5 (feat: added patch)
     }
 
     const user = await userService.createService(req.body);
@@ -41,9 +45,15 @@ const findAll = async (req, res) => {
 const findById = async (req, res) => {
     const id = req.params.id;
 
+<<<<<<< HEAD
 if(!mongoose.Types.ObjectId.isValid(id)){
     return res.status(400).send({ message: "Invalid ID" });
 }
+=======
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).send({ message: "Invalid ID" });
+    }
+>>>>>>> 85f9ff5 (feat: added patch)
 
     const user = await userService.findByIdService(id);
 
