@@ -2,16 +2,17 @@ const userService = require('../services/user.service');
 
 
 const create = async (req, res) => {
-    const { name, username, email, password, avatar, background } = req.body;
+    try {
+        const { name, username, email, password, avatar, background } = req.body;
 
     if (!name || !username || !email || !password || !avatar || !background) {
-        res.status(400).send({ message: "Submmit all fields for registration" });
+            res.status(400).send({ message: "Submmit all fields for registration" });
     }
 
     const user = await userService.createService(req.body);
 
     if (!user) {
-        return res.status(400).send({ message: "Error creating User" });
+            return res.status(400).send({ message: "Error creating User" });
     }
 
 
@@ -24,34 +25,41 @@ const create = async (req, res) => {
             email,
             avatar,
             background,
-        },
-    })
+         },
+    });
+} catch (err){
+    res.status(500).send({message: err.message})
+}
 };
 
 const findAll = async (req, res) => {
-    const users = await userService.findAllService();
+    try {   const users = await userService.findAllService();
 
     if (users.length === 0) {
         return res.send.status(400).send({ message: "There are no registered users" });
     }
 
-    res.send(users)
+    res.send(users);} catch (err){
+    res.status(500).send({message: err.message})
+}
 };
 
 const findById = async (req, res) => {
-    const user = req.user;
-    res.send(user);
+    try {const user = req.user;
+    res.send(user);} catch (err){
+    res.status(500).send({message: err.message})
+}
 };
 
 const update = async (req, res) => {
-    const { name, username, email, password, avatar, background } = req.body;
-    
+    try {const { name, username, email, password, avatar, background } = req.body;
+
     if (!name && !username && !email && !password && !avatar && !background) {
         res.status(400).send({ message: "Submmit at least one field for update" });
     }
 
-    const {id, user} = req;
-  
+    const { id, user } = req;
+
     await userService.updateService(
         id,
         name,
@@ -62,8 +70,9 @@ const update = async (req, res) => {
         background
     );
 
-    res.send({message: "User successfully updated!"});
-    
+    res.send({ message: "User successfully updated!" });} catch (err){
+    res.status(500).send({message: err.message})
+}
 };
 
 module.exports = { create, findAll, findById, update };
