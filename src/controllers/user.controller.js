@@ -33,13 +33,18 @@ const create = async (req, res) => {
 };
 
 const findAll = async (req, res) => {
-    try {   const users = await userService.findAllService();
+    try {   
+        const users = await userService.findAllService();
 
     if (users.length === 0) {
-        return res.send.status(400).send({ message: "There are no registered users" });
+        return res.send.status(400).send({ 
+            message: "There are no registered users",
+         });
     }
 
-    res.send(users);} catch (err){
+    res.send(users);
+} 
+    catch (err){
     res.status(500).send({message: err.message})
 }
 };
